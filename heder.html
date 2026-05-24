@@ -1,1 +1,270 @@
+<div class="adlest-header-wl-wrapper">
+  <a href="/wishlist" class="adlest-header-wl-trigger" aria-label="View Wishlist">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="adlest-header-icon-svg">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
+    <span id="adlest-header-wl-counter">0</span>
+  </a>
 
+  <div class="adlest-wl-dropdown" id="adlest-header-wl-dropdown">
+    <div class="adlest-wl-dropdown-header">MY WISHLIST</div>
+    <div class="adlest-wl-dropdown-items" id="adlest-dropdown-items-list">
+      <div class="adlest-wl-empty-msg">Your wishlist is empty</div>
+    </div>
+    <div class="adlest-wl-dropdown-footer">
+      <a href="/wishlist" class="adlest-wl-view-btn">VIEW FULL WISHLIST</a>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Main Wrapper */
+.adlest-header-wl-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Header Trigger (Icon + Counter) */
+.adlest-header-wl-trigger {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #222222;
+  cursor: pointer;
+  padding: 8px;
+  position: relative;
+}
+
+.adlest-header-icon-svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.2s ease;
+}
+
+/* Counter Style (Premium Rounded Badge) */
+#adlest-header-wl-counter {
+  background: #ff3b30;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  position: absolute;
+  top: 0;
+  right: -2px;
+  border: 1.5px solid #ffffff;
+}
+
+/* Dropdown Container (පෙරනිමියෙන් සැඟවී ඇත) */
+.adlest-wl-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 320px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  z-index: 99999;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+/* MOUSE එක ලං කරද්දී (Hover) DROPDOWN එක AUTO පල්ලෙහාට ඒම */
+.adlest-header-wl-wrapper:hover .adlest-wl-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Dropdown ඇතුළත Styles */
+.adlest-wl-dropdown-header {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 15px 20px;
+  border-bottom: 1px solid #f5f5f5;
+  color: #222222;
+}
+
+.adlest-wl-dropdown-items {
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 10px 0;
+}
+
+/* Wishlist එක හිස් වෙලාවට */
+.adlest-wl-empty-msg {
+  padding: 30px 20px;
+  text-align: center;
+  font-size: 13px;
+  color: #777777;
+  font-style: italic;
+}
+
+/* Dropdown එක ඇතුළේ Item එකක් පෙනෙන විදිහ */
+.adlest-wl-item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #222222;
+  transition: background 0.2s ease;
+}
+
+.adlest-wl-item-row:hover {
+  background: #fafdff;
+}
+
+.adlest-wl-item-img {
+  width: 50px;
+  height: 65px;
+  object-fit: cover;
+  background: #f9f9f9;
+  border-radius: 2px;
+}
+
+.adlest-wl-item-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.adlest-wl-item-title {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.adlest-wl-item-price {
+  font-size: 12px;
+  font-weight: 600;
+  color: #222222;
+}
+
+/* Dropdown Footer Button */
+.adlest-wl-dropdown-footer {
+  padding: 15px 20px;
+  border-top: 1px solid #f5f5f5;
+}
+
+.adlest-wl-view-btn {
+  display: block;
+  width: 100%;
+  background: #000000;
+  color: #ffffff;
+  text-align: center;
+  padding: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.25s ease;
+}
+
+.adlest-wl-view-btn:hover {
+  background: #222222;
+}
+
+/* Custom Scrollbar for Dropdown Items */
+.adlest-wl-dropdown-items::-webkit-scrollbar {
+  width: 4px;
+}
+.adlest-wl-dropdown-items::-webkit-scrollbar-thumb {
+  background: #e5e5e5;
+  border-radius: 10px;
+}
+</style>
+
+<script>
+(function() {
+  'use strict';
+
+  var GLOBAL_WL_STORAGE_KEY = 'adlest_global_wishlist_items';
+  var counterEl = document.getElementById('adlest-header-wl-counter');
+  var itemsListEl = document.getElementById('adlest-dropdown-items-list');
+
+  // Local Storage එකෙන් Data අරගෙන Header Counter එකයි Dropdown එකයි Update කරන ප්‍රධාන Function එක
+  function syncAdlestHeaderData() {
+    var items = [];
+    try { 
+      items = JSON.parse(localStorage.getItem(GLOBAL_WL_STORAGE_KEY)) || []; 
+    } catch(e) { 
+      items = []; 
+    }
+
+    // 1. Counter එක Update කිරීම
+    if (counterEl) {
+      counterEl.textContent = items.length;
+    }
+
+    // 2. Dropdown Items List එක බිල්ඩ් කිරීම
+    if (!itemsListEl) return;
+    
+    if (items.length === 0) {
+      itemsListEl.innerHTML = '<div class="adlest-wl-empty-msg">Your wishlist is empty</div>';
+    } else {
+      var htmlContent = '';
+      // අලුතෙන්ම දාන Items උඩින්ම පෙන්වීමට reverse කරනවා
+      var displayItems = items.slice().reverse(); 
+      
+      displayItems.forEach(function(item) {
+        if (!item) return;
+        htmlContent += `
+          <a href="${item.url || '#'}" class="adlest-wl-item-row">
+            <img src="${item.image || ''}" class="adlest-wl-item-img" alt="${item.title || 'Product'}">
+            <div class="adlest-wl-item-info">
+              <span class="adlest-wl-item-title">${item.title || 'Premium Item'}</span>
+              <span class="adlest-wl-item-price">${item.price || '$0.00'}</span>
+            </div>
+          </a>
+        `;
+      });
+      itemsListEl.innerHTML = htmlContent;
+    }
+  }
+
+  // Global Functions (ඔයාගේ Product Page Button එක Click කරපු සැනින් මේවා Call වෙනවා)
+  window.syncAdlestHeaderCounter = function() {
+    syncAdlestHeaderData();
+  };
+  
+  window.syncAdlestHeaderOnly = function() {
+    syncAdlestHeaderData();
+  };
+
+  if (typeof window.updateHeaderWishlist !== 'function') {
+    window.updateHeaderWishlist = function() {
+      syncAdlestHeaderData();
+    };
+  }
+
+  // Page එක මුලින්ම Load වෙද්දී ක්‍රියාත්මක වීම
+  document.addEventListener('DOMContentLoaded', syncAdlestHeaderData);
+  window.addEventListener('load', syncAdlestHeaderData);
+  
+  // Fourthwall එකේ Page Changes වලදී සිදුවන ප්‍රවේශයන් සඳහා
+  setTimeout(syncAdlestHeaderData, 150);
+})();
+</script>
