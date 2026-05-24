@@ -1,1 +1,253 @@
+<style>
+  /* 1. Visibility Control */
+  .adl-desktop-view { display: block !important; }
+  .adl-mobile-view { display: none !important; }
 
+  @media screen and (max-width: 768px) {
+    .adl-desktop-view { display: none !important; }
+    .adl-mobile-view { display: block !important; }
+    /* Added padding to prevent content from hiding under the fixed header */
+    .adl-mobile-view { padding-top: 165px; } 
+  }
+
+  /* --- DESKTOP STYLES --- */
+  .adl-shein-header {
+    background: #000 !important;
+    font-family: "Metropolis", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 100%;
+    position: relative;
+    z-index: 9999;
+    -webkit-font-smoothing: antialiased;
+  }
+  .adl-header-top {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 40px; max-width: 1600px; margin: 0 auto; gap: 30px;
+  }
+  .adl-logo {
+    font-size: 30px; font-weight: 900; text-decoration: none;
+    color: #fff !important; letter-spacing: 2.5px; text-transform: uppercase;
+  }
+  .adl-search-container { flex-grow: 0; width: 526px; position: relative; }
+  .adl-search-wrapper { display: flex; background: #fff; border-radius: 4px; padding: 2px; height: 32px; align-items: center; }
+  .adl-search-input { flex: 1; padding: 0 15px; border: none; outline: none; color: #757575; font-size: 13px; background: transparent; }
+  .adl-search-btn { background: #000; border: 1px solid #fff; border-radius: 4px; width: 50px; height: 26px; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-right: 2px; }
+  .adl-search-btn svg { width: 16px; height: 16px; fill: #fff; }
+  
+  /* UPDATED: Results Box Alignment (As per SS 16) */
+  .adl-live-search-results { 
+    position: absolute; top: 100%; left: 0; width: 100%; 
+    background: #ffffff !important; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: none; z-index: 10001; 
+    max-height: 450px; overflow-y: auto; border-radius: 0 0 4px 4px; margin-top: 2px; 
+    border: 1px solid #ddd;
+  }
+  .adl-search-item { display: flex; align-items: center; padding: 10px; text-decoration: none; color: #333 !important; border-bottom: 1px solid #eee; }
+  .adl-search-item:hover { background: #f9f9f9; }
+  .adl-search-item img { width: 45px; height: 45px; object-fit: cover; margin-right: 12px; border-radius: 3px; }
+  .adl-item-info { display: flex; flex-direction: column; }
+  .adl-item-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; color: #333 !important; line-height: 1.2; }
+  .adl-item-price { font-size: 12px; color: #e62e04 !important; font-weight: 700; }
+
+  .adl-header-icons { display: flex; gap: 18px; align-items: center; }
+  .adl-icon-link { text-decoration: none; display: flex; align-items: center; gap: 4px; color: #fff; font-size: 14px; font-weight: 600; position: relative; }
+  .adl-icon-link svg { width: 24px; height: 24px; fill: none; stroke: #fff; stroke-width: 1.8; }
+  
+  /* --- ORIGINAL NAV STYLES --- */
+  .adl-nav-outer { background: #000 !important; border-top: 1px solid #333; position: relative; padding: 0 45px; height: 50px; display: flex; align-items: center; }
+  .adl-nav-scroll-container { display: flex; overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none; width: 100%; cursor: grab; -webkit-overflow-scrolling: touch; }
+  .adl-nav-scroll-container::-webkit-scrollbar { display: none; }
+  .adl-nav-list { display: flex; list-style: none; margin: 0; padding: 0; }
+  .adl-nav-link { color: #fff !important; text-decoration: none; font-size: 13px; font-weight: 700; padding: 15px 18px; display: block; white-space: nowrap; text-transform: uppercase; transition: all 0.2s ease; }
+  .adl-mega-wrapper { display: none; position: absolute; top: 50px; left: 0; width: 100%; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 10000; min-height: 500px; border-top: 1px solid #eee; }
+  .adl-nav-item-wrapper:hover .adl-mega-wrapper { display: flex; }
+  .adl-mega-sidebar { width: 250px; background: #f7f7f7; border-right: 1px solid #eee; padding: 10px 0; height: 500px; overflow-y: auto; }
+  .adl-sidebar-item { padding: 12px 25px; font-size: 13px; color: #333; text-decoration: none; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+  .adl-sidebar-item:hover { background: #fff; color: #000; font-weight: 800; }
+  .adl-nav-arrow { background: rgba(0,0,0,0.8); color: #fff; width: 40px; height: 50px; position: absolute; top: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; }
+  .arrow-left { left: 0; } .arrow-right { right: 0; }
+
+  /* --- MOBILE STYLES (ORIGINAL) --- */
+  #sideMenu { 
+    position: fixed; top: 0; left: -100%; width: 85%; max-width: 320px; height: 100%; background: #fff; 
+    z-index: 2005; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 5px 0 15px rgba(0,0,0,0.1); 
+    display: flex; flex-direction: column; font-family: 'Segoe UI', Roboto, sans-serif; 
+  }
+  .adl-mob-scroll-area { flex-grow: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 80px; }
+  .mobile-nav-item { display: flex; align-items: center; padding: 12px 18px; text-decoration: none; color: #222; border-bottom: 1px solid #f9f9f9; font-size: 13px; font-weight: 600; }
+  .mobile-nav-icon { width: 45px; height: 45px; border-radius: 50%; background: #f4f4f4; margin-right: 12px; object-fit: cover; border: 1px solid #eee; flex-shrink: 0; }
+  .mobile-nav-text { flex-grow: 1; text-transform: uppercase; letter-spacing: 0.5px; white-space: normal; }
+  .mobile-nav-arrow { font-size: 18px; color: #bbb; }
+  #overlay-mob { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2004; backdrop-filter: blur(2px); }
+  .adl-mobile-bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; height: 60px; border-top: 1px solid #e0e0e0; z-index: 10002; display: flex; justify-content: space-around; align-items: center; padding: 5px 0; }
+  .adl-bottom-nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #333; font-size: 10px; font-weight: 600; width: 20%; }
+  .adl-bottom-nav-item svg { width: 24px; height: 24px; margin-bottom: 3px; fill: none; stroke: #333; stroke-width: 1.5; }
+  .adl-mobile-cat-bar { display: flex; justify-content: space-between; align-items: center; padding: 0 15px 10px; gap: 12px; overflow-x: auto; scrollbar-width: none; }
+  .adl-mobile-cat-bar::-webkit-scrollbar { display: none; }
+  .adl-mobile-cat-item { color: #000; text-decoration: none; font-size: 11px; font-weight: 800; white-space: nowrap; padding: 2px 0; text-transform: uppercase; }
+</style>
+
+<div class="adl-desktop-view">
+  <header class="adl-shein-header">
+    <div class="adl-header-top">
+      <a href="/" class="adl-logo">ADLEST</a>
+      <div class="adl-search-container">
+        <form action="/search" method="get" class="adl-search-wrapper">
+          <input type="text" name="q" placeholder="Search brands, items..." class="adl-search-input adl-live-input" autocomplete="off">
+          <button type="submit" class="adl-search-btn">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#fff"/></svg>
+          </button>
+        </form>
+        <div class="adl-live-search-results"></div>
+      </div>
+      <div class="adl-header-icons">
+        <a href="/pages/wishlist" class="adl-icon-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        </a>
+        <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="adl-icon-link">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m8-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="#fff" fill="none"/></svg>
+        </a>
+        <a href="/cart" class="adl-icon-link">
+          <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6zM3 6h18M16 10a4 4 0 0 1-8 0" stroke="#fff" fill="none"/></svg>
+          <span style="font-size: 12px; margin-left: -2px;">{{ cart.item_count }}</span>
+        </a>
+      </div>
+    </div>
+    <div class="adl-nav-outer">
+      <div class="adl-nav-arrow arrow-left" id="scroll-left">❮</div>
+      <div class="adl-nav-scroll-container" id="adl-scroll-menu">
+        <div class="adl-nav-list">
+          <div class="adl-nav-item-wrapper">
+            <a href="javascript:void(0)" class="adl-nav-link" style="font-weight: 900;">Categories ▾</a>
+            <div class="adl-mega-wrapper">
+              <div class="adl-mega-sidebar">
+                {% comment %} DESKTOP SIDEBAR MEGA MENU LINKS {% endcomment %}
+                {% assign sidebar_handles = "women-plus-clothing,bags,tops,men-clothing-1,kids,underwear,women-clothing-1,sports,electronics,baby,beauty,jewelry-accessories,shoes-accessories,phones-amp-accessories,dresses,beachwear" | split: ',' %}
+                {% assign sidebar_titles = "Curve,Bags,Tops,Men Clothing,Kids,Underwear & Sleepwear,Women Clothing,Sports,Electronics,Baby,Beauty,Jewelry Accessories,Shoes Accessories,Phones & Accessories,Dresses,Beachwear" | split: ',' %}
+                {% for handle in sidebar_handles %}
+                  <a href="/collections/{{ handle }}" class="adl-sidebar-item">{{ sidebar_titles[forloop.index0] }} <span>›</span></a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          {% comment %} DESKTOP HORIZONTAL NAV LINKS {% endcomment %}
+          {% for handle in sidebar_handles %}
+            <div class="adl-nav-item-wrapper"><a href="/collections/{{ handle }}" class="adl-nav-link">{{ sidebar_titles[forloop.index0] }}</a></div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="adl-nav-arrow arrow-right" id="scroll-right">❯</div>
+    </div>
+  </header>
+</div>
+
+<div class="adl-mobile-view">
+  <div id="sideMenu">
+    <div style="padding: 20px 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff; z-index: 10;">
+      <span style="font-weight: 800; font-size: 15px; text-transform: uppercase;">All Categories</span>
+      <span onclick="toggleMobMenu()" style="font-size: 30px; cursor: pointer; line-height: 0.8;">&times;</span>
+    </div>
+    <div class="adl-mob-scroll-area">
+      {% assign mob_handles = "women-plus-clothing,bags,tops,men-clothing-1,kids,underwear,women-clothing-1,sports,electronics,baby,beauty,jewelry-accessories,shoes-accessories,phones-amp-accessories,dresses,beachwear" | split: ',' %}
+      {% assign mob_titles = "Curve,Bags,Tops,Men Clothing,Kids,Underwear & Sleepwear,Women Clothing,Sports,Electronics,Baby,Beauty,Jewelry Accessories,Shoes Accessories,Phones & Accessories,Dresses,Beachwear" | split: ',' %}
+      {% for handle in mob_handles %}
+        <a href="/collections/{{ handle }}" class="mobile-nav-item">
+          <img class="mobile-nav-icon" src="{{ collections[handle].featured_image | img_url: '120x120', crop: 'center' | default: 'https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-icon.png' }}" alt="{{ mob_titles[forloop.index0] }}">
+          <span class="mobile-nav-text">{{ mob_titles[forloop.index0] }}</span>
+          <span class="mobile-nav-arrow">›</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+  <div id="overlay-mob" onclick="toggleMobMenu()"></div>
+
+  <!-- FIXED MOBILE HEADER -->
+  <header style="background: #fff; border-bottom: 1px solid #eee; position: fixed; top: 0; width: 100%; z-index: 10003; font-family: 'Segoe UI', Roboto, sans-serif;">
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 15px; height: 50px; position: relative;">
+      <div onclick="toggleMobMenu()" style="cursor: pointer; width: 40px; display: flex; align-items: center; z-index: 2;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </div>
+      
+      <div style="position: absolute; left: 50%; transform: translateX(-50%); text-align: center; z-index: 1;">
+        <a href="/" style="text-decoration: none;">
+          <h1 style="margin: 0; font-family: 'Times New Roman', serif; letter-spacing: 5px; font-size: 24px; font-weight: 900; text-transform: uppercase; color: #000;">ADLEST</h1>
+        </a>
+      </div>
+
+      <div style="display: flex; gap: 15px; align-items: center; justify-content: flex-end; width: 80px; z-index: 2;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        <a href="/cart"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg></a>
+      </div>
+    </div>
+    
+    <div style="padding: 5px 15px 12px 15px; position: relative;">
+      <div style="background: #f4f4f4; border-radius: 2px; display: flex; align-items: center; padding: 10px 12px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" placeholder="Search for items..." class="adl-live-input" style="border:none; background:transparent; margin-left:10px; width:100%; outline:none; font-size:13px; color:#333;" autocomplete="off">
+      </div>
+      <div class="adl-live-search-results" style="width: calc(100% - 30px); left: 15px;"></div>
+    </div>
+
+    <div class="adl-mobile-cat-bar">
+      <a href="/collections/women-clothing-1" class="adl-mobile-cat-item">WOMEN</a>
+      <a href="/collections/men-clothing-1" class="adl-mobile-cat-item">MEN</a>
+      <a href="/collections/kids" class="adl-mobile-cat-item">KIDS</a>
+      <a href="/collections/women-plus-clothing" class="adl-mobile-cat-item">CURVE</a>
+      <a href="/collections/electronics" class="adl-mobile-cat-item">ELECTRONICS</a>
+    </div>
+  </header>
+
+  <nav class="adl-mobile-bottom-nav">
+    <a href="/" class="adl-bottom-nav-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Shop</span></a>
+    <a href="javascript:void(0)" onclick="toggleMobMenu()" class="adl-bottom-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><span>Category</span></a>
+    <a href="/cart" class="adl-bottom-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg><span>Cart</span></a>
+    <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="adl-bottom-nav-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m8-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg><span>Me</span></a>
+  </nav>
+</div>
+
+<script>
+  function toggleMobMenu() {
+    var menu = document.getElementById("sideMenu");
+    var overlay = document.getElementById("overlay-mob");
+    if (menu.style.left === "0px") { menu.style.left = "-100%"; overlay.style.display = "none"; }
+    else { menu.style.left = "0px"; overlay.style.display = "block"; }
+  }
+
+  document.querySelectorAll('.adl-live-input').forEach(inputField => {
+    inputField.addEventListener('input', function() {
+      const q = this.value.trim();
+      const resContainer = this.parentElement.nextElementSibling;
+      
+      if (q.length < 1) { resContainer.style.display = 'none'; return; }
+      
+      fetch(`/search/suggest.json?q=${encodeURIComponent(q)}&resources[type]=product&resources[limit]=6`)
+      .then(r => r.json()).then(data => {
+        const products = data.resources.results.products;
+        if (products && products.length > 0) {
+          let h = '';
+          products.forEach(p => { 
+            h += `<a href="${p.url}" class="adl-search-item">
+                    <img src="${p.image}">
+                    <div class="adl-item-info">
+                      <span class="adl-item-title">${p.title}</span>
+                      <span class="adl-item-price">${p.price}</span>
+                    </div>
+                  </a>`; 
+          });
+          resContainer.innerHTML = h; resContainer.style.display = 'block';
+        } else { resContainer.style.display = 'none'; }
+      });
+    });
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.adl-search-container') && !e.target.classList.contains('adl-live-input')) {
+      document.querySelectorAll('.adl-live-search-results').forEach(res => res.style.display = 'none');
+    }
+  });
+
+  const scnt = document.getElementById('adl-scroll-menu');
+  if(scnt) {
+    document.getElementById('scroll-left').onclick = () => scnt.scrollBy({ left: -200, behavior: 'smooth' });
+    document.getElementById('scroll-right').onclick = () => scnt.scrollBy({ left: 200, behavior: 'smooth' });
+  }
+</script>
