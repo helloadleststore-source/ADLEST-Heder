@@ -1,103 +1,23 @@
-<!-- =========================
-ADLEST FULL HEADER CODE
-GITHUB / NOTEPAD READY
-========================= -->
-
-<!-- MEKA OYAGE EXISTING CODE EKA ATULATA PASTE KARANNA -->
-<!-- KISIMA DEYAK ADU KARALA NA -->
-<!-- OYA DEPU UPDATE EKATH EKKA -->
-
-<!-- START -->
-
-<style>
-/* OYAGE FULL CSS CODE EKA ME THANATA */
-</style>
-
-<div class="adl-desktop-view">
-  <!-- OYAGE FULL DESKTOP HEADER HTML -->
-</div>
-
-<div class="adl-mobile-view">
-  <!-- OYAGE FULL MOBILE HEADER HTML -->
-</div>
+<!-- =========================================
+ADLEST REALTIME WISHLIST FIX
+FORTHWALL SAME TAB LIVE UPDATE
+========================================= -->
 
 <script>
 /* =========================================
-   ORIGINAL FUNCTIONS
-========================================= */
-
-const cats=[
-{n:"Men Clothing",s:"men-clothing"},
-{n:"Women Clothing",s:"women-clothing-2"},
-{n:"Curve",s:"curve"},
-{n:"Kids",s:"kids"},
-{n:"Beachwear",s:"beachwear"},
-{n:"Tops",s:"tops-2"},
-{n:"Dresses",s:"dresses-2"},
-{n:"Phones Accessories",s:"phones-accessories"},
-{n:"Shoes Accessories",s:"shoes-accessories"},
-{n:"Jewelry Accessories",s:"jewelry-accessories"},
-{n:"Beauty",s:"beauty"},
-{n:"Sports",s:"sports"},
-{n:"Baby",s:"baby"},
-{n:"Underwear Sleepwear",s:"underwear-sleepwear"},
-{n:"Electronics",s:"electronics"},
-{n:"Hand Bags",s:"hand-bags"}
-];
-
-function renderNavigation(){
-let d='<div class="adl-nav-item-wrapper"><a href="javascript:void(0)" class="adl-nav-link" style="font-weight:900;">Categories ▾</a><div class="adl-mega-wrapper"><div class="adl-mega-sidebar">';
-
-cats.forEach(c=>{
-d+=`<a href="/collections/${c.s}" class="adl-sidebar-item">${c.n} <span>›</span></a>`
-});
-
-d+='</div></div></div>';
-
-cats.forEach(c=>{
-d+=`<div class="adl-nav-item-wrapper"><a href="/collections/${c.s}" class="adl-nav-link">${c.n}</a></div>`
-});
-
-document.getElementById("adl-dynamic-nav").innerHTML=d;
-
-let m='';
-
-cats.forEach(c=>{
-m+=`<a href="/collections/${c.s}" class="mobile-nav-item">
-<span class="mobile-nav-text">${c.n}</span>
-<span class="mobile-nav-arrow">›</span>
-</a>`
-});
-
-document.getElementById("adl-dynamic-mob-nav").innerHTML=m
-}
-
-renderNavigation();
-
-function toggleMobMenu(){
-var m=document.getElementById("sideMenu"),
-o=document.getElementById("overlay-mob");
-
-if(m.style.left==="0px"){
-m.style.left="-100%";
-o.style.display="none"
-}else{
-m.style.left="0px";
-o.style.display="block"
-}
-}
-
-/* =========================================
-   NEW LIVE WISHLIST + CART UPDATE
+   GLOBAL LIVE WISHLIST UPDATE FUNCTION
 ========================================= */
 
 function updateLiveWishlistBadges() {
+
   try {
 
+    /* LOCAL STORAGE GET */
     const wishlistItems =
       JSON.parse(
         localStorage.getItem('adlest_global_wishlist_items')
-      ) || [];
+        || '[]'
+      );
 
     const count = wishlistItems.length;
 
@@ -106,7 +26,9 @@ function updateLiveWishlistBadges() {
       document.getElementById('adl-dk-heart-badge');
 
     if(dBadge){
+
       dBadge.innerText = count;
+
       dBadge.style.display =
         count > 0 ? 'flex' : 'none';
     }
@@ -116,12 +38,14 @@ function updateLiveWishlistBadges() {
       document.getElementById('adl-mb-heart-badge');
 
     if(mBadge){
+
       mBadge.innerText = count;
+
       mBadge.style.display =
         count > 0 ? 'flex' : 'none';
     }
 
-    /* DROPDOWN RENDER */
+    /* DESKTOP DROPDOWN */
     const dkDropdownList =
       document.getElementById('adl-dk-wl-dropdown-list');
 
@@ -130,32 +54,36 @@ function updateLiveWishlistBadges() {
       if(count === 0){
 
         dkDropdownList.innerHTML =
-        '<div class="adl-hd-wl-empty">Your wishlist is empty</div>';
+        `
+        <div class="adl-hd-wl-empty">
+          Your wishlist is empty
+        </div>
+        `;
 
       } else {
 
-        let wlHtml = '';
+        let html = '';
 
-        const displayWlItems =
+        const reversed =
           wishlistItems.slice().reverse();
 
-        displayWlItems.forEach(item => {
+        reversed.forEach(item => {
 
           if(!item) return;
 
-          wlHtml += `
+          html += `
           <a href="${item.url || '#'}"
              class="adl-hd-wl-row">
 
             <img
               src="${item.image || ''}"
               class="adl-hd-wl-img"
-              alt="${item.title || 'Item'}">
+              alt="${item.title || 'Wishlist'}">
 
             <div class="adl-hd-wl-info">
 
               <span class="adl-hd-wl-name">
-                ${item.title || 'Premium Item'}
+                ${item.title || 'Product'}
               </span>
 
               <span class="adl-hd-wl-price">
@@ -168,142 +96,121 @@ function updateLiveWishlistBadges() {
           `;
         });
 
-        dkDropdownList.innerHTML = wlHtml;
+        dkDropdownList.innerHTML = html;
       }
     }
 
-  } catch(e) {
+  } catch(error){
 
-    console.error("Wishlist error:", e);
-
-  }
-}
-
-/* =========================================
-   LIVE CART COUNTER
-========================================= */
-
-function updateAllCartCounters(count){
-
-  document.querySelectorAll(".fw-cart-count")
-  .forEach(e=>{
-
-    e.innerText = count;
-
-    if(count > 0){
-      e.classList.add("has-items");
-    } else {
-      e.classList.remove("has-items");
-    }
-
-  });
-}
-
-/* =========================================
-   AUTO REALTIME SYNC
-========================================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  updateLiveWishlistBadges();
-
-  /* STORAGE UPDATE */
-  window.addEventListener("storage", (e) => {
-
-    if(
-      e.key === "adlest_global_wishlist_items"
-    ){
-      updateLiveWishlistBadges();
-    }
-
-  });
-
-  /* LOCAL STORAGE OVERRIDE */
-  const originalSetItem = localStorage.setItem;
-
-  localStorage.setItem = function(key, value){
-
-    originalSetItem.apply(this, arguments);
-
-    if(
-      key === "adlest_global_wishlist_items"
-    ){
-      updateLiveWishlistBadges();
-    }
-  };
-
-  /* CLICK UPDATE */
-  document.addEventListener("click", () => {
-
-    setTimeout(updateLiveWishlistBadges, 50);
-
-  });
-
-  /* FOURTHWALL CART */
-  if(
-    typeof Fourthwall !== 'undefined'
-    &&
-    Fourthwall.cart
-  ){
-
-    Fourthwall.cart.on('update', (cart) => {
-
-      if(cart){
-        updateAllCartCounters(
-          cart.totalCount || 0
-        );
-      }
-
-    });
-
-    updateAllCartCounters(
-      Fourthwall.cart.totalCount || 0
+    console.error(
+      'Wishlist Update Error:',
+      error
     );
-  }
 
-  /* BACKGROUND AUTO SYNC */
-  setInterval(() => {
+  }
+}
+
+/* =========================================
+   CUSTOM EVENT LISTENER
+   SAME TAB REALTIME UPDATE
+========================================= */
+
+window.addEventListener(
+  'wishlistUpdated',
+  function(e){
 
     updateLiveWishlistBadges();
 
+  }
+);
+
+/* =========================================
+   STORAGE EVENT
+   OTHER TAB UPDATE
+========================================= */
+
+window.addEventListener(
+  'storage',
+  function(e){
+
     if(
-      typeof Fourthwall !== 'undefined'
-      &&
-      Fourthwall.cart
+      e.key === 'adlest_global_wishlist_items'
     ){
 
-      updateAllCartCounters(
-        Fourthwall.cart.totalCount || 0
-      );
+      updateLiveWishlistBadges();
 
-    } else {
-
-      const fwCartRoot =
-        document.querySelector(
-          '[data-cart-count], .fw-cart-count-badge'
-        );
-
-      if(
-        fwCartRoot &&
-        fwCartRoot.innerText.trim() !== ""
-      ){
-
-        const parsedCount =
-          parseInt(
-            fwCartRoot.innerText.trim(),
-            10
-          );
-
-        if(!isNaN(parsedCount)){
-          updateAllCartCounters(parsedCount);
-        }
-      }
     }
 
-  }, 1000);
+  }
+);
 
-});
+/* =========================================
+   PAGE LOAD INIT
+========================================= */
+
+document.addEventListener(
+  'DOMContentLoaded',
+  function(){
+
+    updateLiveWishlistBadges();
+
+  }
+);
+
+/* =========================================
+   OPTIONAL AUTO POLLING BACKUP
+========================================= */
+
+setInterval(function(){
+
+  updateLiveWishlistBadges();
+
+},1000);
 
 </script>
 
-<!-- END -->
+<!-- =========================================
+PRODUCT PAGE WISHLIST BUTTON CODE
+ADD THIS AFTER localStorage.setItem
+========================================= -->
+
+<script>
+
+/* EXAMPLE */
+
+function addToWishlist(product){
+
+  let wishlist =
+    JSON.parse(
+      localStorage.getItem(
+        'adlest_global_wishlist_items'
+      ) || '[]'
+    );
+
+  wishlist.push(product);
+
+  localStorage.setItem(
+    'adlest_global_wishlist_items',
+    JSON.stringify(wishlist)
+  );
+
+  /* =====================================
+     REALTIME HEADER UPDATE EVENT
+  ===================================== */
+
+  window.dispatchEvent(
+
+    new CustomEvent(
+      'wishlistUpdated',
+      {
+        detail:{
+          count:wishlist.length
+        }
+      }
+    )
+
+  );
+
+}
+
+</script>
